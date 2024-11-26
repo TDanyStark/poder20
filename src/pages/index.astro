@@ -1,8 +1,18 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Header from '../sections/Header.astro';
+import Goal from "@/sections/Goal.astro";
+import Layout from "../layouts/Layout.astro";
+import Header from "../sections/Header.astro";
+import Hero from "../sections/Hero.astro";
+import Brands from "@/sections/Brands.astro";
 ---
 
 <Layout title="Poder 20">
-	<Header />
+  <Header />
+  <main>
+    <Hero />
+		<Goal />
+  </main>
+  <footer>
+    <Brands />
+  </footer>
 </Layout>
