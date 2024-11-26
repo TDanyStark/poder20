@@ -1,0 +1,20 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../sections/Header.astro";
+import Brands from "@/sections/Brands.astro";
+import AbbottConBackground from "@/components/AbbottConBackground.astro";
+import Banner from "@/sections/Banner.astro";
+import GamePoder from "@/components/GamePoder";
+---
+
+<Layout title="Poder 20">
+  <Header />
+  <main>
+    <Banner />
+    <Brands align="justify-start" />
+    <GamePoder client:load />
+  </main>
+  <footer>
+    <AbbottConBackground />
+  </footer>
+</Layout>

@@ -1,9 +1,16 @@
 ---
 import { URL_BASE } from "@/config";
+
+interface Props{
+  align?: string;
+}
+
+let {align} = Astro.props;
+align = align || 'justify-end';
 ---
 
-<section class="flex flex-col md:flex-row gap-8 p-4 lg:p-8 justify-end max-w-7xl mx-auto items-center">
-  <img src={`${URL_BASE}/img/mia.webp`} alt="Logo Mia">
-  <img src={`${URL_BASE}/img/mia20.webp`} alt="Logo Mia20">
-  <img src={`${URL_BASE}/img/bellaface.webp`} alt="Logo Bellaface">
+<section class=`flex flex-col md:flex-row gap-8 p-4 lg:p-8 ${align} max-w-7xl mx-auto items-center`>
+  <img class="h-20" src={`${URL_BASE}/img/mia.webp`} alt="Logo Mia">
+  <img class="h-20" src={`${URL_BASE}/img/mia20.webp`} alt="Logo Mia20">
+  <img class="h-16" src={`${URL_BASE}/img/bellaface.webp`} alt="Logo Bellaface">
 </section>
