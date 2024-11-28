@@ -5,7 +5,7 @@ interface Props {
   question: Question;
   handleClickArticle: (e: React.MouseEvent<HTMLElement>, id: string) => void;
   handleresponse: (e: React.MouseEvent<HTMLButtonElement>, id: string, response: boolean) => void;
-  seconds: number;
+  seconds: number | null;
 }
 
 

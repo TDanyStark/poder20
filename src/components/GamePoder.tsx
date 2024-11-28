@@ -17,6 +17,10 @@ const GamePoder = () => {
 
   const handleClickArticle = (e: React.MouseEvent<HTMLElement>, id: string) => {
     e.stopPropagation();
+    // obtener el question que se ha clickeado
+    const question = questions.find((question) => question.id === id);
+    if(question?.isAnswered) return;
+  
     setSeconds(20);
     executeAudio(tictacAudio, 0.4);
     const updatedQuestions = questions.map((question) => {
@@ -116,7 +120,7 @@ const GamePoder = () => {
               question={question}
               handleClickArticle={handleClickArticle}
               handleresponse={handleresponse}
-              seconds={seconds || 0}
+              seconds={seconds}
             />
           ))}
         </div>
