@@ -2,14 +2,23 @@ import { questionnaire } from "../data/data";
 import { useEffect, useState } from "react";
 import "./GamePoder.css";
 import Modal from "./Modal";
+import useAudios from "@/hooks/useAudios";
+import executeAudio from "@/utils/executeAudio";
+import QuestionArticle from "./Question";
+
 
 const GamePoder = () => {
   const [questions, setQuestions] = useState(questionnaire);
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [seconds, setSeconds] = useState<number | null>(null);
+  const { tictacAudio, successAudio, errorAudio } = useAudios();
 
-  const handleClickArticle = (id: string) => {
+  const handleClickArticle = (e: React.MouseEvent<HTMLElement>, id: string) => {
+    e.stopPropagation();
+    setSeconds(20);
+    executeAudio(tictacAudio, 0.4);
     const updatedQuestions = questions.map((question) => {
       if (question.id === id) {
         return {
@@ -30,13 +39,10 @@ const GamePoder = () => {
     e.stopPropagation();
     const updatedQuestions = questions.map((question) => {
       if (question.id === id) {
-        console.log({
-          ...question,
-          isAnswered: true,
-        });
         return {
           ...question,
           isAnswered: true,
+          userSelected: response,
         };
       }
       return question;
@@ -49,13 +55,52 @@ const GamePoder = () => {
       if (question.correctAnswer === response) {
         setTitle("¡Correcto! ¡Has acertado!");
         setMessage("🎉");
+        setSeconds(null);
+        tictacAudio?.pause();
+        executeAudio(successAudio);
       } else {
         setTitle("¡Incorrecto! ¡Inténtalo de nuevo!");
         setMessage("😔");
+        setSeconds(null);
+        tictacAudio?.pause();
+        executeAudio(errorAudio);
       }
       setIsModalOpen(true);
     }
   }
+
+  useEffect(() => {
+    const question = questions.find((question) => question.isActive);
+    if (seconds === 0 && question) {
+      if (tictacAudio) {
+        tictacAudio.pause();
+      }
+      setTitle("¡Se acabó el tiempo!");
+      setMessage("😔");
+      setIsModalOpen(true);
+      executeAudio(errorAudio);
+      // cambiar el isActive del question
+      const updatedQuestions = questions.map((question) => {
+        if (question.isActive) {
+          return {
+            ...question,
+            isActive: false,
+          };
+        }
+        return question;
+      });
+      setQuestions(updatedQuestions);
+      return
+    };
+    if (seconds === null) {
+      return;
+    }
+    const interval = setInterval(() => {
+      setSeconds((prevSeconds) => (prevSeconds !== null ? prevSeconds - 1 : null));
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [seconds]);
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -66,38 +111,13 @@ const GamePoder = () => {
       <section className="max-w-7xl mx-auto px-4 pb-4 md:px-8 md:pb-8 font-brandon">
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-8">
           {questions.map((question) => (
-            <article
+            <QuestionArticle 
               key={question.id}
-              className="flip-card text-white rounded-lg cursor-pointer"
-              onClick={() => handleClickArticle(question.id)}
-            >
-              <div
-                className={`flip-card-container ${question.isActive || question.isAnswered ? "active" : "noActive"}`}
-              >
-                <div className="bg-rosado-wh-abbott front p-20 grid place-content-center">
-                  <h2 className="text-9xl font-bold">{question.id}</h2>
-                </div>
-                <div className="bg-rosado-wh-abbott back p-4 flex flex-col justify-between gap-2">
-                  <div className="flex-1 grid place-content-center">
-                    <h3 className="text-3xl text-pretty">
-                      {question.question}
-                    </h3>
-                  </div>
-                  <div className="options text-3xl space-x-4">
-                    <button className="bg-morado-wh-abbott text-white px-4 py-2 rounded-full"
-                      onClick={(e) => handleresponse(e, question.id, true)}
-                    >
-                      Verdadero
-                    </button>
-                    <button className="bg-white text-morado-wh-abbott px-4 py-2 rounded-full"
-                      onClick={(e) => handleresponse(e, question.id, false)}
-                    >
-                      Falso
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </article>
+              question={question}
+              handleClickArticle={handleClickArticle}
+              handleresponse={handleresponse}
+              seconds={seconds || 0}
+            />
           ))}
         </div>
       </section>

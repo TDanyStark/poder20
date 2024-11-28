@@ -1,9 +1,10 @@
-interface Question {
+export interface Question {
   id: string;
   question: string;
   correctAnswer: boolean;
   isActive: boolean;
   isAnswered: boolean;
+  userSelected: boolean | null;
 }
 
 export const questionnaire: Question[] = [
@@ -14,6 +15,7 @@ export const questionnaire: Question[] = [
     correctAnswer: true,
     isActive: false,
     isAnswered: false,
+    userSelected: null,
   },
   {
     id: "2",
@@ -22,6 +24,7 @@ export const questionnaire: Question[] = [
     correctAnswer: false,
     isActive: false,
     isAnswered: false,
+    userSelected: null,
   },
   {
     id: "3",
@@ -30,6 +33,7 @@ export const questionnaire: Question[] = [
     correctAnswer: false,
     isActive: false,
     isAnswered: false,
+    userSelected: null,
   },
   {
     id: "4",
@@ -38,6 +42,7 @@ export const questionnaire: Question[] = [
     correctAnswer: true,
     isActive: false,
     isAnswered: false,
+    userSelected: null,
   },
   {
     id: "5",
@@ -46,6 +51,7 @@ export const questionnaire: Question[] = [
     correctAnswer: true,
     isActive: false,
     isAnswered: false,
+    userSelected: null,
   },
   {
     id: "6",
@@ -54,5 +60,6 @@ export const questionnaire: Question[] = [
     correctAnswer: false,
     isActive: false,
     isAnswered: false,
+    userSelected: null,
   },
 ];
