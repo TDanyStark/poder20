@@ -37,7 +37,7 @@ const QuestionArticle = ({ question, handleClickArticle, handleresponse, seconds
         </div>
         <div className="flex-1 grid place-content-center">
           <h3 className="text-3xl text-pretty">
-            {question.question}<span className='text-base align-top'>1</span>
+            {question.question}<span className='text-base align-top pl-px'>{question.reference}</span>
           </h3>
         </div>
         <div className="options text-3xl space-x-4">
