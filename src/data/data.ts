@@ -52,7 +52,7 @@ export const questionnaire: Question[] = [
   {
     id: "5",
     question:
-      "Algunos anticonceptivos orales combinados se utilizan como tratamiento del acné",
+      "Algunos anticonceptivos orales combinados han demostrado ser eﬁcaces para tratar los síntomas de la androgenización (p. ej. seborrea, acné, hirsutismo, alopecia)",
     reference: "3",
     correctAnswer: true,
     isActive: false,
